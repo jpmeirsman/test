@@ -1,0 +1,57 @@
+# Having multiple "Monitor" sections is known to be problematic. Make
+# sure you don't have in use another one laying around e.g. in another
+# xorg.conf.d file or even a generic xorg.conf file. More details can
+# be found in https://bugs.freedesktop.org/show_bug.cgi?id=32430.
+#
+#Section "Monitor"
+#  Identifier "Default Monitor"
+#
+#  ## If your monitor doesn't support DDC you may override the
+#  ## defaults here
+#  #HorizSync 28-85
+#  #VertRefresh 50-100
+#
+#  ## Add your mode lines here, use e.g the cvt tool
+#
+#EndSection
+======
+ svga.autodetect = "TRUE"
+svga.vramSize = "8294400"
+svga.maxWidth = 1920
+svga.maxHeight = 1080
+===============
+Section "Screen"
+    Identifier             "Screen0"
+    Device                 "Device0"
+    Monitor                "Monitor0"
+    DefaultDepth           24
+    SubSection             "Display"
+        Depth              24
+        Modes              "1280x720"
+    EndSubSection
+EndSection
+=============
+Section "Monitor"
+    Identifier      "HDMI2"
+    Modeline        "1368x768_60.00"  85.86  1368 1440 1584 1800  768 769 772 795  -HSync +Vsync
+    Option          "PreferredMode" "1368x768_60.00"
+EndSection
+Section "Device"
+    Identifier      "ATI Technologies, Inc. M22 [Radeon Mobility M300]"
+    Driver          "intel"
+    Option          "HDMI2"
+EndSection
+Section "Screen"
+    Identifier      "Primary Screen"
+    Device          "ATI Technologies, Inc. M22 [Radeon Mobility M300]"
+    DefaultDepth    24
+    SubSection "Display"
+        Depth           24
+        Modes   "1368x768"
+    EndSubSection
+EndSection
+
+Section "ServerLayout"
+        Identifier      "Default Layout"
+        Screen          "Primary Screen"
+EndSection
